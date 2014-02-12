@@ -10,17 +10,11 @@ server = raw_input('Server: ')
 port = raw_input('Port: ')
 database = raw_input('Database: ')
 
-connect_string = 'mssql+pymssql://'
-connect_string = connect_string + user
-connect_string = connect_string + ':'
-connect_string = connect_string + password
-connect_string = connect_string + '@'
-connect_string = connect_string + server
-connect_string = connect_string + ':'
-connect_string = connect_string + port
-connect_string = connect_string + '/'
-connect_string = connect_string + database
+url = make_url('mssql+pymssql://' +
+                user+':'+password +
+                '@' + server + ':' + port +
+                '/' + database)
 
-ds = DataStore(make_url(connect_string))
+ds = DataStore(url)
 bda = BackupDataAccess(ds)
 print bda.GetCompletedBackups(989)
