@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 
-class DataStore(object):
+class data_store(object):
     """
 
     """
@@ -9,5 +9,5 @@ class DataStore(object):
         self.engine = create_engine(connect_string)
 
 
-    def GetData(self, cmd):
-         return [value for value in self.engine.execute(cmd)]
+    def get_data(self, cmd):
+         return self.engine.execute(cmd).fetchone()
