@@ -54,9 +54,10 @@ backups_completed = {'989': {'id': 592,
     }}
 
 def mock_get_backups_completed(id):
-    print id
-    print type(id)
-    return backups_completed[id]
+    try:
+        return backups_completed[id]
+    except KeyError:
+        print(id+' not found in data store')
 
 mock_dict = {'spGetBackupsCompleted': mock_get_backups_completed}
    
@@ -65,6 +66,9 @@ def dump(sql, *multiparams, **params):
    Assuming format like:
    EXEC spSomeProc @parm1=val1,  @parm2=val2, ...
    """
+   print sql
+   print multiparams
+   print params
    tokens = sql.split(' ')
    try:
       return mock_dict[tokens[1]](tokens[2])
@@ -72,5 +76,5 @@ def dump(sql, *multiparams, **params):
       print(tokens[1]+" is not a known procedure.")
    
 engine = create_engine('mssql+pymssql://', strategy='mock', executor=dump)
-engine.execute('EXEC spGetBackupsCompleted 989')
+print engine.execute('EXEC spGetBackupsCompleted %d', 989)
 
