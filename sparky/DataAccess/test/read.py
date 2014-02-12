@@ -66,15 +66,12 @@ def dump(sql, *multiparams, **params):
    Assuming format like:
    EXEC spSomeProc @parm1=val1,  @parm2=val2, ...
    """
-   print sql
-   print multiparams
-   print params
-   tokens = sql.split(' ')
+   tokens = sql.format(*multiparams).split(' ')
    try:
       return mock_dict[tokens[1]](tokens[2])
    except KeyError:
       print(tokens[1]+" is not a known procedure.")
    
 engine = create_engine('mssql+pymssql://', strategy='mock', executor=dump)
-print engine.execute('EXEC spGetBackupsCompleted %d', 989)
+print engine.execute('EXEC spGetBackupsCompleted {0}', 989)
 
