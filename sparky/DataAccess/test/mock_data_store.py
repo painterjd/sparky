@@ -1,5 +1,5 @@
 import datetime
-from sparky.DataAccess.common.data_store import data_store
+from sqlalchemy import create_engine
 
 backups_completed = {'989': {'id': 592, 
     'backup_ id':989, 
@@ -58,9 +58,9 @@ def mock_get_backups_completed(id):
     print type(id)
     return backups_completed[id]
 
-mock_dict = {'spGetBackupsCompleted': mock_get_backups_completed}
+mock_dict = {'spGetReportForBackup': mock_get_backups_completed}
    
-def dump(sql, *multiparams, **params):
+def mocker(sql, *multiparams, **params):
    """
    Assuming format like:
    EXEC spSomeProc @parm1=val1,  @parm2=val2, ...
@@ -71,7 +71,11 @@ def dump(sql, *multiparams, **params):
    except KeyError:
       print(tokens[1]+" is not a known procedure.")
 
-class mock_data_store(data_store):
-    def __init__(self, mock_dict):
-        self.mock_dict = mock_dict
-        super(mock_data_store, self).__init__('mssql+pymssql://', strategy='mock', executor=dump)
+# TODO: inherit data_store and pass create_machine parameters to specify mock strategy
+class mock_data_store(object):
+    def __init__(self):
+        self.engine = create_engine('mssql+pymssql://', strategy='mock', executor=mocker)
+
+    def get_data(self, cmd):
+        # This isn't exactly like the data_store implementation because this engine isn't returning a resultproxy
+         return self.engine.execute(cmd)

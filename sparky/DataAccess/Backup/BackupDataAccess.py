@@ -3,8 +3,8 @@ class backup_data_access(object):
         self.data_store = data_store
         pass
 
-    def get_completed_backups(self, backup_configuration_id):
+    def get_completed_backup_report(self, backup_configuration_id):
         """
 
         """
-        return self.data_store.get_data('EXEC spGetReportForBackup @backupId='+str(backup_configuration_id))
+        return self.data_store.get_data('EXEC spGetReportForBackup %d', backup_configuration_id)
