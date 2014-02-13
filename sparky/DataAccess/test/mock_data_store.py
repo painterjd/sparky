@@ -65,7 +65,8 @@ def mocker(sql, *multiparams, **params):
    Assuming format like:
    EXEC spSomeProc @parm1=val1,  @parm2=val2, ...
    """
-   tokens = sql.format(*multiparams).split(' ')
+
+   tokens = sql[0].format(sql[1]).split(' ')
    try:
       return mock_dict[tokens[1]](tokens[2])
    except KeyError:
@@ -76,6 +77,6 @@ class mock_data_store(object):
     def __init__(self):
         self.engine = create_engine('mssql+pymssql://', strategy='mock', executor=mocker)
 
-    def get_data(self, cmd):
+    def get_data(self, *args, **kwargs):
         # This isn't exactly like the data_store implementation because this engine isn't returning a resultproxy
-         return self.engine.execute(cmd)
+         return self.engine.execute(args, kwargs)
