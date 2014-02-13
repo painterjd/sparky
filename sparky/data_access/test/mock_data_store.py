@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 backups_completed = {'989': {'id': 592, 
     'backup_ id':989, 
     'backup_ configuration_id':1, 
-    'backup_ configuration_name':u'Backup to a backup to a backup',  
+    'backup_ configuration_name':u'backup to a backup to a backup',
     'is_ deleted':False,  
     'source_ machine_agent_id':1,  
     'source_ domain_username_id':1,  
