@@ -1,7 +1,8 @@
+
 import datetime
 from sqlalchemy import create_engine
 
-backups_completed = {'989': {'id': 592, 
+BACKUPS_COMPLETED = {'989': {'id': 592,
     'backup_ id':989, 
     'backup_ configuration_id':1, 
     'backup_ configuration_name':u'backup to a backup to a backup',
@@ -56,7 +57,7 @@ backups_completed = {'989': {'id': 592,
 def mock_get_backups_completed(id):
     print id
     print type(id)
-    return backups_completed[id]
+    return BACKUPS_COMPLETED[id]
 
 mock_dict = {'spGetReportForBackup': mock_get_backups_completed}
    
@@ -73,7 +74,7 @@ def mocker(sql, *multiparams, **params):
       print(tokens[1]+" is not a known procedure.")
 
 # TODO: inherit data_store and pass create_machine parameters to specify mock strategy
-class mock_data_store(object):
+class MockDataStore(object):
     def __init__(self):
         self.engine = create_engine('mssql+pymssql://', strategy='mock', executor=mocker)
 

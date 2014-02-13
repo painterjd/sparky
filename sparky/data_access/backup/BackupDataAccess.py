@@ -1,4 +1,4 @@
-class backup_data_access(object):
+class BackupDataAccess(object):
     def __init__(self, data_store):
         self.data_store = data_store
         pass
