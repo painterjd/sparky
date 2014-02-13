@@ -66,7 +66,7 @@ def mocker(sql, *multiparams, **params):
    EXEC spSomeProc @parm1=val1,  @parm2=val2, ...
    """
 
-   tokens = sql[0].format(sql[1]).split(' ')
+   tokens = (sql[0] % sql[1]).split(' ')
    try:
       return mock_dict[tokens[1]](tokens[2])
    except KeyError:
