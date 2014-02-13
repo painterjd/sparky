@@ -1,12 +1,14 @@
 from sqlalchemy import create_engine
+import abc
+import six
 
+@six.add_metaclass(abc.ABCMeta)
 class data_store(object):
     """
 
     """
-    def __init__(self, connect_string):
-        self.connect_string = connect_string
-        self.engine = create_engine(connect_string)
+    def __init__(self, *args, **kwargs):
+        self.engine = create_engine(args, kwargs)
 
 
     def get_data(self, cmd):
